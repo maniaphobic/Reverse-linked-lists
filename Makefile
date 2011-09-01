@@ -1,23 +1,40 @@
-CFLAGS = -g -std=c99
-CPP_EXECUTABLE = cpp
-CPP_FILES = cpp.cc cpp.hh
-C_EXECUTABLE = c
-C_IMPL = c.c
-C_HEADERS = c.h
-C_FILES = $(C_HEADERS) $(C_IMPL)
-EXECUTABLES = $(C_EXECUTABLE) $(CPP_EXECUTABLE)
+#
 
-all: c
+CFLAGS = -g -std=c99
+CPP = g++
+CPPFLAGS = -g
+CPP_EXECUTABLE = cpp
+CPP_FILES = $(CPP_HEADERS) $(CPP_IMPL)
+CPP_HEADERS = $(CPP_EXECUTABLE).hh
+CPP_IMPL = $(CPP_EXECUTABLE).cc
+CPP_OBJS = $(CPP_EXECUTABLE).dSYM
+C_EXECUTABLE = c
+C_FILES = $(C_HEADERS) $(C_IMPL)
+C_HEADERS = $(C_EXECUTABLE).h
+C_IMPL = $(C_EXECUTABLE).c
+C_OBJS = $(C_EXECUTABLE).dSYM
+EXECUTABLES = $(C_EXECUTABLE) $(CPP_EXECUTABLE)
+OBJ_FILES = $(C_OBJS) $(CPP_OBJS)
+
+#
+
+all: c cpp
 
 c: $(C_FILES)
 	$(CC) $(CFLAGS) -o $(C_EXECUTABLE) $(C_IMPL)
 
-cpp:
+cpp: $(CPP_FILES)
+	$(CPP) $(CPPFLAGS) -o $(CPP_EXECUTABLE) $(CPP_IMPL)
 
 $(C_FILES):
 
-realclean: clean
-	-rm -f $(EXECUTABLES)
+$(CPP_FILES):
 
 clean:
+	-rm -fr $(OBJ_FILES)
+
+realclean: clean
+	-rm -fr $(EXECUTABLES)
+
+#
 
